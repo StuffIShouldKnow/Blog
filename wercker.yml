@@ -6,6 +6,9 @@ build:
         code: |
             apt-get update
             apt-get install git -y
+    - add-ssh-key:
+        keyname: SSH_KEY
+        host: github.com
     - arjen/hugo-build:
         version: "0.16"
         theme: slim
