@@ -1,0 +1,14 @@
+theme = "slim"
+baseurl = "https://stuffishouldknow.github.io/Blog/"
+languageCode = "en-us"
+title = "Stuff I should've known"
+
+[params]
+	Subtitle = "Simple things I should've known a long time ago, but didn't."
+	Content = true
+	DisqusShortname = "stuffishouldknow"
+	
+[taxonomies]
+tag = "tags"
+category = "categories"
+series = "series"
