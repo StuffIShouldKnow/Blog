@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Deploy &middot; Stuff I should&#39;ve known </title>
+
+
+<link rel="stylesheet" href="https://stuffishouldknow.github.io/Blog/css/slim.css">
+<link rel="stylesheet" href="https://stuffishouldknow.github.io/Blog/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="https://stuffishouldknow.github.io/Blog/tags/deploy/index.xml" rel="alternate" type="application/rss+xml" title="Stuff I should&#39;ve known" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="https://stuffishouldknow.github.io/Blog/">Stuff I should&#39;ve known</a></h1>
+  <p class="site-tagline">Simple things I should&#39;ve known a long time ago, but didn&#39;t.</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+  
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+         
+        <div class="post">
+          <h2 class="post-title"><a href="https://stuffishouldknow.github.io/Blog/post/messing-with-submodules/">Messing with submodules</a></h2>
+          <span class="post-date">Aug 11, 2016</span>
+		  
+			<span class="post-tags">
+		  	
+			          #<a href="https://stuffishouldknow.github.io/Blog/tags/git">Git</a>&nbsp;
+		  	
+			          #<a href="https://stuffishouldknow.github.io/Blog/tags/submodules">Submodules</a>&nbsp;
+		  	
+			          #<a href="https://stuffishouldknow.github.io/Blog/tags/wercker">Wercker</a>&nbsp;
+		  	
+			          #<a href="https://stuffishouldknow.github.io/Blog/tags/deploy">Deploy</a>&nbsp;
+		  	
+		    </span>
+		  
+		  
+			<div class="content">
+				<p>Today I&rsquo;ve been trying to set up automatic deployment for this blog, using <strong><a href="http://wercker.com/">Wercker</a></strong>. There is a nice guide to follow <a href="https://gohugo.io/tutorials/automated-deployments/">here</a>, although it didn&rsquo;t go without issues. At first, everything was all nice and green on the dashboard and I was happy. But, when navigating to the site, there was nothing.</p>
+
+<p>Checking the html files on Github confirmed this, the files where empty. The index.xml file contained all the right stuff though. This turned out to be a problem with the theme I&rsquo;m using. Or, not the theme itself, the theme is fine. But I had to import it as a git submodule for Wercker to actually be able to use the theme while building my site.</p>
+
+<p>I created a new submodule using the following command:</p>
+
+<pre><code>git submodule add https://github.com/zhe/hugo-theme-slim
+</code></pre>
+
+<p>This created a .gitmodules file for me, clone the module in to a hugo-theme-slim folder and added the submodule to my .git/config file. But, I want the theme to be in a folder called themes/slim, not in the folder git put it. There should be a git command for this. but I couldn&rsquo;t make it work. So, in my .gitmodules I changed the path of my submodule, and changed the name to be the same as the path.</p>
+
+<p>This wasn&rsquo;t enough of course, as now my build would fail because of the following error:</p>
+
+<pre><code>No submodule mapping found in .gitmodules for path 'themes/slim'
+</code></pre>
+
+<p>Seems like the config file in my .git folder needed some attention aswell. The submodule is defined there too, and it&rsquo;s really great if the submodule has the same name in both this file and the .gitmodules file. So, changed it to themes/slim here too, and now everything works. I have content and everything.</p>
+
+<p><strong>.git/config</strong></p>
+
+<pre><code>[submodule &quot;themes/slim&quot;]
+    url = https://github.com/zhe/hugo-theme-slim
+</code></pre>
+
+<p><strong>.gitmodules</strong></p>
+
+<pre><code>[submodule &quot;themes/slim&quot;]
+    path = themes/slim
+    url = https://github.com/zhe/hugo-theme-slim
+</code></pre>
+
+<p>I going to keep learning about submodules though, I don&rsquo;t think this manual workaround should be necessary, I&rsquo;m sure there&rsquo;s an easier way to be able to set name and path for your submodules.</p>
+
+			</div>
+		   
+        </div>
+        
+      </div>
+      <div class="pagination">
+   
+</div>
+    </div>
+    <div class="footer">
+  
+  <p>Powered by <a href="http://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="https://stuffishouldknow.github.io/Blog/js/slim.js"></script>
+  
+
+</body>
+
+</html>

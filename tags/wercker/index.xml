@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Wercker on Stuff I should&#39;ve known</title>
+    <link>https://stuffishouldknow.github.io/Blog/tags/wercker/</link>
+    <description>Recent content in Wercker on Stuff I should&#39;ve known</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 11 Aug 2016 12:18:13 +0200</lastBuildDate>
+    <atom:link href="https://stuffishouldknow.github.io/Blog/tags/wercker/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Messing with submodules</title>
+      <link>https://stuffishouldknow.github.io/Blog/post/messing-with-submodules/</link>
+      <pubDate>Thu, 11 Aug 2016 12:18:13 +0200</pubDate>
+      
+      <guid>https://stuffishouldknow.github.io/Blog/post/messing-with-submodules/</guid>
+      <description>&lt;p&gt;Today I&amp;rsquo;ve been trying to set up automatic deployment for this blog, using &lt;strong&gt;&lt;a href=&#34;http://wercker.com/&#34;&gt;Wercker&lt;/a&gt;&lt;/strong&gt;. There is a nice guide to follow &lt;a href=&#34;https://gohugo.io/tutorials/automated-deployments/&#34;&gt;here&lt;/a&gt;, although it didn&amp;rsquo;t go without issues. At first, everything was all nice and green on the dashboard and I was happy. But, when navigating to the site, there was nothing.&lt;/p&gt;
+
+&lt;p&gt;Checking the html files on Github confirmed this, the files where empty. The index.xml file contained all the right stuff though. This turned out to be a problem with the theme I&amp;rsquo;m using. Or, not the theme itself, the theme is fine. But I had to import it as a git submodule for Wercker to actually be able to use the theme while building my site.&lt;/p&gt;
+
+&lt;p&gt;I created a new submodule using the following command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git submodule add https://github.com/zhe/hugo-theme-slim
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This created a .gitmodules file for me, clone the module in to a hugo-theme-slim folder and added the submodule to my .git/config file. But, I want the theme to be in a folder called themes/slim, not in the folder git put it. There should be a git command for this. but I couldn&amp;rsquo;t make it work. So, in my .gitmodules I changed the path of my submodule, and changed the name to be the same as the path.&lt;/p&gt;
+
+&lt;p&gt;This wasn&amp;rsquo;t enough of course, as now my build would fail because of the following error:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;No submodule mapping found in .gitmodules for path &#39;themes/slim&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Seems like the config file in my .git folder needed some attention aswell. The submodule is defined there too, and it&amp;rsquo;s really great if the submodule has the same name in both this file and the .gitmodules file. So, changed it to themes/slim here too, and now everything works. I have content and everything.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.git/config&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[submodule &amp;quot;themes/slim&amp;quot;]
+    url = https://github.com/zhe/hugo-theme-slim
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;.gitmodules&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[submodule &amp;quot;themes/slim&amp;quot;]
+    path = themes/slim
+    url = https://github.com/zhe/hugo-theme-slim
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I going to keep learning about submodules though, I don&amp;rsquo;t think this manual workaround should be necessary, I&amp;rsquo;m sure there&amp;rsquo;s an easier way to be able to set name and path for your submodules.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
